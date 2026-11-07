@@ -71,9 +71,15 @@ jobs:
           else bin="$PWD/.venv/bin"; tools="$PWD/.tools/bin"; exe=""; fi
           export WORKER="$bin/vgi-starter-worker$exe"
           export HAYBARN_UNITTEST="$tools/haybarn-unittest$exe"
-          # Native Windows python.exe can't open MSYS paths (/d/a/...); give it D:/a/...
-          root="$PWD"; [ "$RUNNER_OS" = "Windows" ] && root="$(cygpath -m "$PWD")"
-          export RECIPES_WORKER="$bin/python$exe $root/examples/run.py"
+          export RECIPES_WORKER="$bin/python$exe $PWD/examples/run.py"
+          if [ "$RUNNER_OS" = "Windows" ]; then
+            # Native python.exe can't open MSYS paths (/d/a/...), and MSYS rewrites
+            # path-like env vars it passes to native programs (mangling "D:/a" into
+            # "D;A:\"). Hand over Windows paths and exclude the variable from rewriting.
+            winbin="$(cygpath -m "$bin")"; winroot="$(cygpath -m "$PWD")"
+            RECIPES_WORKER="$winbin/python.exe $winroot/examples/run.py"
+            export MSYS2_ENV_CONV_EXCL=RECIPES_WORKER
+          fi
           TRANSPORT=${{ matrix.transport }} PYTHON="uv run --no-project python" ci/run-integration.sh
 
   metadata:
