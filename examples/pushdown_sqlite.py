@@ -18,8 +18,10 @@ dependencies (the template installs it in the dev group for this recipe).
 from __future__ import annotations
 
 import logging
+import os
 import sqlite3
 import tempfile
+from contextlib import closing
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, ClassVar
@@ -54,14 +56,22 @@ def _ensure_db() -> None:
     """Create a deterministic 2,000-row orders table if it does not exist."""
     if DB_PATH.exists():
         return
-    tmp = DB_PATH.with_suffix(".tmp")
-    with sqlite3.connect(tmp) as con:
+    tmp = DB_PATH.with_suffix(f".{os.getpid()}.tmp")
+    # `with sqlite3.connect()` only commits; closing() also closes the file, which
+    # Windows requires before the rename below.
+    with closing(sqlite3.connect(tmp)) as con, con:
         con.execute("CREATE TABLE orders (id INTEGER PRIMARY KEY, region TEXT NOT NULL, amount INTEGER NOT NULL)")
         regions = ["north", "south", "east", "west"]
         con.executemany(
             "INSERT INTO orders VALUES (?, ?, ?)", [(i, regions[i % 4], (i * 37) % 1000) for i in range(1, 2001)]
         )
-    tmp.replace(DB_PATH)
+    try:
+        tmp.replace(DB_PATH)
+    except PermissionError:
+        # Another worker process created (and has open) the database first; use theirs.
+        tmp.unlink(missing_ok=True)
+        if not DB_PATH.exists():
+            raise
 
 
 # Module level on purpose: the SDK evaluates class-body annotations at runtime.
