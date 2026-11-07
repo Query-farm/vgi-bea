@@ -71,7 +71,9 @@ jobs:
           else bin="$PWD/.venv/bin"; tools="$PWD/.tools/bin"; exe=""; fi
           export WORKER="$bin/vgi-starter-worker$exe"
           export HAYBARN_UNITTEST="$tools/haybarn-unittest$exe"
-          export RECIPES_WORKER="$bin/python$exe $PWD/examples/run.py"
+          # Native Windows python.exe can't open MSYS paths (/d/a/...); give it D:/a/...
+          root="$PWD"; [ "$RUNNER_OS" = "Windows" ] && root="$(cygpath -m "$PWD")"
+          export RECIPES_WORKER="$bin/python$exe $root/examples/run.py"
           TRANSPORT=${{ matrix.transport }} PYTHON="uv run --no-project python" ci/run-integration.sh
 
   metadata:

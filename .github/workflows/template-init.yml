@@ -28,7 +28,7 @@ jobs:
         working-directory: /tmp/acme
         run: |
           if git grep -n -I -i -w starter -- . ':!scripts/vgi_template.py' ':!.vgi-starter.json' \
-               | grep -v -i "starter template"; then
+               | grep -v -i "starter template" | grep -v "vgi-starter-api.query-farm.services"; then
             echo "::error::identifiers above were not renamed by make init"; exit 1
           fi
       - name: make check on the renamed worker
