@@ -151,9 +151,18 @@ vgi-agent-tests.yaml  # private graders for the agent test tasks
 | write data out to a file or service | `COPY … TO` with a copy function |
 | accept `INSERT` / `UPDATE` / `DELETE` | a catalog table with insert/update/delete functions |
 
-The [examples/](examples/) folder has a recipe for most of these. Writable tables are
-covered in the Python SDK's API reference (look for the table descriptor's
-insert, update and delete functions).
+The [examples/](examples/) folder has a recipe for most of these. Writable tables have no
+recipe:
+
+A writable table is a catalog `Table` that names a table in-out function per operation in
+`insert_function`, `update_function` and `delete_function`, with the richest result each one
+produces in `write_result_modes`. The helpers in `vgi.write_results` (`write_options`,
+`write_result_schema`, `write_result_batch`, `row_id_field`) read DuckDB's `write_options`
+argument and build the result. UPDATE and DELETE need a scan function that emits
+`row_id_field()` and declares projection pushdown. Transactions: override `attach_supports_transactions`
+and `catalog_transaction_begin` / `_commit` / `_rollback` on the catalog. See
+[Writable tables](https://github.com/Query-farm/vgi-python/blob/main/docs/catalog-interface.md#writable-tables)
+in the vgi-python docs.
 
 ## Secrets and configuration
 

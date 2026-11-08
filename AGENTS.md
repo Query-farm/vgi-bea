@@ -95,9 +95,19 @@ reviewed. It's optional, so run it before publishing.
 | combine many rows into one value | aggregate |
 | a fixed dataset referenced by name | catalog table |
 | write data out to a file or service | `COPY … TO` copy function |
-| accept INSERT / UPDATE / DELETE | catalog table with insert/update/delete functions (see the SDK API reference) |
+| accept INSERT / UPDATE / DELETE | writable catalog table: `Table(insert_function=…, update_function=…, delete_function=…)` |
 
-Recipes for most kinds are in `examples/`.
+Recipes for most kinds are in `examples/`. Writable tables have no recipe:
+
+A writable table is a catalog `Table` that names a table in-out function per operation in
+`insert_function`, `update_function` and `delete_function`, with the richest result each one
+produces in `write_result_modes`. The helpers in `vgi.write_results` (`write_options`,
+`write_result_schema`, `write_result_batch`, `row_id_field`) read DuckDB's `write_options`
+argument and build the result. UPDATE and DELETE need a scan function that emits
+`row_id_field()` and declares projection pushdown. Transactions: override `attach_supports_transactions`
+and `catalog_transaction_begin` / `_commit` / `_rollback` on the catalog. See
+[Writable tables](https://github.com/Query-farm/vgi-python/blob/main/docs/catalog-interface.md#writable-tables)
+in the vgi-python docs.
 
 ## Sharp edges (read before writing code)
 
@@ -106,12 +116,12 @@ Recipes for most kinds are in `examples/`.
 - **Scalars have no named arguments.** For an optional scalar argument, add an overload
   (a second function with the same SQL name and one more argument). Named arguments
   (`step := 2`) work on table functions only.
-- **Declared constraints aren't a guarantee.** `choices`, `ge`, `le` and `pattern` are
-  published so DuckDB and agents can discover them, but SDKs differ in which ones they
-  enforce: some skip named table arguments, C# enforces none, and `pattern` matching
-  differs (Java requires a full match). Where its SDK doesn't enforce a constraint, the
-  starter re-checks it in bind code. Do the same, and on a columnar scalar argument validate
-  values in the compute body.
+- **Declared constraints are enforced at bind.** `choices`, `ge`, `le` and `pattern` on a
+  constant argument are published so DuckDB and agents can discover them, and the SDK
+  (vgi-python) rejects a violating value when the query is bound, before your code runs, for
+  positional and named arguments alike. `pattern` is an unanchored search (JSON Schema
+  semantics) in every SDK: write `^https?://`, not `https?://`. Constraints cover constant
+  arguments only: validate the values of a columnar scalar argument in the compute body.
 - **Reserved argument names.** DuckDB keywords such as `interval`, `end`, `from`, `order`
   and `table` break `name := value` syntax. Pick another name (`start_date`, `end_date`).
 - **State must be serializable.** Table-function state (`initial_state`/`process`) must subclass `ArrowSerializableDataclass`. Over HTTP each batch can be served by a different process, so the cursor travels with the request. Keep it small, and never put secrets in it.

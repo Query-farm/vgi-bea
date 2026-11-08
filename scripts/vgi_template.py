@@ -36,7 +36,12 @@ SELF = Path(__file__).resolve()
 
 SKIP_DIRS = {".git", ".venv", ".tools", "node_modules", "target", "build", "dist", "bin", "obj", ".gradle",
              "__pycache__", ".mypy_cache", ".ruff_cache", ".pytest_cache", ".idea", ".vscode"}
-LOCKFILES = {"uv.lock", "bun.lock", "bun.lockb", "Cargo.lock", "go.sum", "packages.lock.json"}
+# Lockfiles the rename leaves alone; post_init regenerates them without upgrading
+# anything. NuGet's packages.lock.json is renamed like any other file instead: it
+# names the worker project only by its assembly name, so after the rename
+# `dotnet restore --locked-mode` accepts it as is, and re-resolving it would
+# move QueryFarm.Vgi to the newest patch release.
+LOCKFILES = {"uv.lock", "bun.lock", "bun.lockb", "Cargo.lock", "go.sum"}
 # Phrases that mention the template itself and must survive the rename.
 # The hosted demo API keeps its name in every fork. The workflow guard
 # `startsWith(github.repository, 'Query-farm/vgi-starter-')` skips publishing
@@ -107,17 +112,30 @@ def _strip_template_only(text: str) -> str:
 
 
 def _iter_files() -> list[Path]:
-    """Files git would track (honours .gitignore); a plain walk outside a git checkout."""
+    """Files git would track (honours .gitignore); a plain walk outside a git checkout.
+
+    The top-level ``bin/`` holds launchers the Makefile and CI call by name
+    (``bin/vgi-starter-worker``), so it is always included: the walk skips only
+    nested ``bin/`` build output (C#), and a global or parent-repo ignore rule
+    for ``bin/`` must not leave a launcher behind under its old name.
+    """
+    files: list[Path] | None = None
     try:
         out = subprocess.run(["git", "ls-files", "-z", "--cached", "--others", "--exclude-standard"],
                              cwd=ROOT, capture_output=True, text=True, check=True).stdout
-        return [ROOT / f for f in out.split("\0") if f and (ROOT / f).is_file()]
+        files = [ROOT / f for f in out.split("\0") if f and (ROOT / f).is_file()]
     except (OSError, subprocess.CalledProcessError):
         pass
-    files = []
-    for dirpath, dirnames, filenames in os.walk(ROOT):
-        dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS]
-        files.extend(Path(dirpath) / f for f in filenames)
+    if files is None:
+        files = []
+        for dirpath, dirnames, filenames in os.walk(ROOT):
+            top = Path(dirpath) == ROOT
+            dirnames[:] = [d for d in dirnames if d not in SKIP_DIRS or (top and d == "bin")]
+            files.extend(Path(dirpath) / f for f in filenames)
+    seen = set(files)
+    launchers = ROOT / "bin"
+    if launchers.is_dir():
+        files.extend(p for p in sorted(launchers.rglob("*")) if p.is_file() and p not in seen)
     return files
 
 
