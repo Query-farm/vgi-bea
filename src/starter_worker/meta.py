@@ -119,6 +119,7 @@ AGENT_TEST_TASKS = [
 
 CATALOG_TAGS = {
     "vgi.title": "VGI Starter Worker",
+    "vgi.subtitle": "Example DuckDB functions to rename and replace: a scalar, a table function and a REST API reader.",
     "vgi.doc_llm": CATALOG_DOC_LLM,
     "vgi.doc_md": CATALOG_DOC_MD,
     "vgi.source_url": SOURCE_URL,
