@@ -47,6 +47,13 @@ SELECT count(*) FROM pushdown_sqlite.main.orders() WHERE region IN ('north', 'ea
 ----
 1000
 
+# DuckDB drops every predicate it pushes down from its own plan, so the worker
+# must apply each one exactly, including NOT IN (sent as NOT(IN ...)).
+query I
+SELECT count(*) FROM pushdown_sqlite.main.orders() WHERE region NOT IN ('west', 'east');
+----
+1000
+
 # ------------------------------------------------------- cache_expensive_call
 statement ok
 ATTACH 'cache_expensive_call' (TYPE vgi, LOCATION '{RECIPES_WORKER} cache_expensive_call');

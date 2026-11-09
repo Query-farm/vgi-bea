@@ -6,9 +6,13 @@ those into the source's own query means less data crosses the wire.
 
     SELECT id, amount FROM pushdown_sqlite.main.orders() WHERE region = 'west' AND amount > 900;
 
-Only simple top-level comparisons are translated here; anything else is left for
-DuckDB, which always re-checks every row it receives, so partial pushdown is safe.
-The demo database is created on first use in the system temp directory.
+DuckDB removes every predicate it pushes down from its own plan and does not
+re-check the rows, so the worker must apply each one exactly. Here only simple
+top-level comparisons, IN lists and IS [NOT] NULL are translated into SQL, which
+narrows what SQLite returns; ``auto_apply_filters`` then has the SDK re-apply every
+pushed predicate to each batch, so the ones not translated (NOT IN, for example)
+still hold. Whatever you translate must never drop a matching row. The demo
+database is created on first use in the system temp directory.
 
 **Dependency:** vgi-python binds pushed-down predicates with a local engine, so a
 worker that sets ``filter_pushdown = True`` needs ``vgi-python[http,haybarn]`` in its
@@ -113,7 +117,7 @@ def _where(params: ProcessParams[NoArgs]) -> tuple[list[str], list[Any]]:
             clauses.append(f"{col} IS NULL")
         elif isinstance(f, IsNotNullFilter):
             clauses.append(f"{col} IS NOT NULL")
-        # AND/OR/struct filters: not pushed; DuckDB applies them.
+        # Anything else: not translated; auto_apply_filters applies it.
     return clauses, values
 
 
@@ -130,6 +134,8 @@ class Orders(TableFunctionGenerator[NoArgs, Cursor]):
         name = "orders"
         description = "Orders from a SQLite database, with filter and projection pushdown"
         filter_pushdown = True
+        # DuckDB drops pushed predicates from its plan; re-apply them all exactly.
+        auto_apply_filters = True
         projection_pushdown = True
 
     @classmethod
