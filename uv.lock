@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 5
 requires-python = ">=3.13"
 resolution-markers = [
     "python_full_version >= '3.15'",
@@ -842,7 +842,7 @@ wheels = [
 
 [[package]]
 name = "vgi-python"
-version = "0.49.1"
+version = "0.50.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -853,9 +853,9 @@ dependencies = [
     { name = "typer" },
     { name = "vgi-rpc" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f7/c3/af4a277b233c6d3855cf5abf35db4ada7e3ab4763127040819f44662a29e/vgi_python-0.49.1.tar.gz", hash = "sha256:72c79a71a314ebdf04015e23c157c5b98b0071421896cda4edc270127e09ba99", size = 5498946, upload-time = "2026-11-07T04:07:59.143Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1f/65/02db3e8e1fde17bf2d9b080bf6e20c4e6ed2db674efbfc80d0bc1009acfb/vgi_python-0.50.0.tar.gz", hash = "sha256:c1481e064dd7301ad88dd803de0188d29abf25445a80fff041db90e40fdf99e8", size = 5551678, upload-time = "2026-11-08T22:02:43.248Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/45/c6/b0068490cae046623c9f4bc1f74a5ea4cbb2bdd1a5e550251edba0bd7c45/vgi_python-0.49.1-py3-none-any.whl", hash = "sha256:28dfa4ac3d79f62b49e4c3ff712d37adb960b0578d8b0e3853d246f83e5d53fb", size = 1411871, upload-time = "2026-11-07T04:07:57.41Z" },
+    { url = "https://files.pythonhosted.org/packages/c8/80/48affe2985a7a7514529b050af290f005d0b4ef7fd9491977f4814ee9f27/vgi_python-0.50.0-py3-none-any.whl", hash = "sha256:69949ca5ad3d6c926e8edb86d92b677c6670caf4e55e499576ce8cb8d60d0534", size = 1442720, upload-time = "2026-11-08T22:02:40.855Z" },
 ]
 
 [package.optional-dependencies]
@@ -910,7 +910,7 @@ dev = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "vgi-python", extras = ["http"], specifier = ">=0.49.1,<0.50" }]
+requires-dist = [{ name = "vgi-python", extras = ["http"], specifier = ">=0.50.0,<0.51" }]
 
 [package.metadata.requires-dev]
 dev = [
@@ -918,7 +918,7 @@ dev = [
     { name = "pyarrow-stubs", specifier = ">=20.0" },
     { name = "pytest", specifier = ">=8.4" },
     { name = "ruff", specifier = ">=0.14" },
-    { name = "vgi-python", extras = ["haybarn"], specifier = ">=0.49.1,<0.50" },
+    { name = "vgi-python", extras = ["haybarn"], specifier = ">=0.50.0,<0.51" },
 ]
 
 [[package]]
