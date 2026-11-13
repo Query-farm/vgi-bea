@@ -1,0 +1,127 @@
+# BEA contract: authenticates through SQL secrets, independent of live credentials.
+require vgi
+
+require-env BEA_WORKER
+
+statement ok
+LOAD json;
+
+statement ok
+ATTACH 'bea' (TYPE vgi, LOCATION '{BEA_WORKER}');
+
+statement error
+SELECT count(*) FROM bea.main.datasets();
+----
+BEA_API_KEY
+
+statement ok
+CREATE SECRET bea_fixture (TYPE bea_api, API_KEY '00000000-0000-0000-0000-000000000000');
+
+# datasets
+query T
+SELECT dataset_name FROM bea.main.datasets() ORDER BY dataset_name;
+----
+GDPbyIndustry
+NIPA
+Regional
+
+# required parameters
+query TTT
+SELECT parameter_name, is_required, multiple_accepted FROM bea.main.parameters('NIPA') ORDER BY parameter_name;
+----
+Frequency	true	true
+TableName	true	true
+Year	true	true
+
+# parameter values
+query TT
+SELECT key, description FROM bea.main.parameter_values('NIPA', 'TableName');
+----
+T10101	Fixture GDP table
+
+# filtered parameter values
+query T
+SELECT key FROM bea.main.parameter_values('Regional', 'LineCode', filters_json := '{"TableName":"SAINC1"}') ORDER BY key;
+----
+1
+2
+
+# values and missing markers
+query TTTTT
+SELECT time_period, value, value_text, unit_multiplier, geo_fips FROM bea.main.data('Regional', '{"Year":"2024"}') ORDER BY time_period, geo_fips;
+----
+2023	-42.25	-42.25	6	01000
+2024	1234.5	1,234.50	6	01000
+2024	NULL	(D)	6	02000
+
+# retained dimensions
+query T
+SELECT json_extract_string(attributes_json, '$.TableName') FROM bea.main.data('NIPA', '{"Year":"2024"}', max_rows := 1);
+----
+T10101
+
+# notes
+query TT
+SELECT note_ref, note_text FROM bea.main.notes('NIPA', '{"Year":"2024"}');
+----
+1	Synthetic data. (D) means suppressed.
+
+# empty result
+query T
+SELECT count(*) FROM bea.main.data('EMPTY', '{"Year":"2024"}');
+----
+0
+
+# empty data retains notes
+query T
+SELECT count(*) FROM bea.main.notes('EMPTY', '{"Year":"2024"}');
+----
+1
+
+# explicit cap
+query T
+SELECT count(*) FROM bea.main.data('NIPA', '{"Year":"2024"}', max_rows := 1);
+----
+1
+
+# multiple result nodes
+query T
+SELECT count(*) FROM bea.main.data('MULTI', '{"Year":"2024"}');
+----
+6
+
+# credential override rejected
+statement error
+SELECT * FROM bea.main.data('NIPA', '{"UserID":"override"}');
+----
+Parameters must
+
+# duplicate parameter rejected
+statement error
+SELECT * FROM bea.main.data('NIPA', '{"Year":2024,"year":2023}');
+----
+Parameters must
+
+# API error redacted
+statement error
+SELECT * FROM bea.main.data('ERROR', '{"Year":"2024"}');
+----
+BEA API error 4
+
+# corrupt value rejected
+statement error
+SELECT * FROM bea.main.data('BADVALUE', '{"Year":"2024"}');
+----
+unrecognized numeric value
+
+# redirect rejected
+statement error
+SELECT * FROM bea.main.data('REDIRECT', '{"Year":"2024"}');
+----
+HTTP 302
+
+statement ok
+DROP SECRET bea_fixture;
+
+statement ok
+DETACH bea;

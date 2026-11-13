@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "catalog": "bea",
+  "worker": [
+    ".venv/bin/vgi-bea-worker"
+  ],
+  "api_base_url": "https://apps.bea.gov/api/data",
+  "secret_type": "bea_api",
+  "key_required": true,
+  "credential_check_sql": "SELECT count(*) FROM bea.main.datasets()",
+  "checks": [
+    {
+      "name": "datasets",
+      "sql": "SELECT dataset_name FROM bea.main.datasets() ORDER BY dataset_name",
+      "rows": [
+        [
+          "GDPbyIndustry"
+        ],
+        [
+          "NIPA"
+        ],
+        [
+          "Regional"
+        ]
+      ]
+    },
+    {
+      "name": "required parameters",
+      "sql": "SELECT parameter_name, is_required, multiple_accepted FROM bea.main.parameters('NIPA') ORDER BY parameter_name",
+      "rows": [
+        [
+          "Frequency",
+          true,
+          true
+        ],
+        [
+          "TableName",
+          true,
+          true
+        ],
+        [
+          "Year",
+          true,
+          true
+        ]
+      ]
+    },
+    {
+      "name": "parameter values",
+      "sql": "SELECT key, description FROM bea.main.parameter_values('NIPA', 'TableName')",
+      "rows": [
+        [
+          "T10101",
+          "Fixture GDP table"
+        ]
+      ]
+    },
+    {
+      "name": "filtered parameter values",
+      "sql": "SELECT key FROM bea.main.parameter_values('Regional', 'LineCode', filters_json := '{\"TableName\":\"SAINC1\"}') ORDER BY key",
+      "rows": [
+        [
+          "1"
+        ],
+        [
+          "2"
+        ]
+      ]
+    },
+    {
+      "name": "values and missing markers",
+      "sql": "SELECT time_period, value, value_text, unit_multiplier, geo_fips FROM bea.main.data('Regional', '{\"Year\":\"2024\"}') ORDER BY time_period, geo_fips",
+      "rows": [
+        [
+          "2023",
+          -42.25,
+          "-42.25",
+          6,
+          "01000"
+        ],
+        [
+          "2024",
+          1234.5,
+          "1,234.50",
+          6,
+          "01000"
+        ],
+        [
+          "2024",
+          null,
+          "(D)",
+          6,
+          "02000"
+        ]
+      ]
+    },
+    {
+      "name": "retained dimensions",
+      "sql": "SELECT json_extract_string(attributes_json, '$.TableName') FROM bea.main.data('NIPA', '{\"Year\":\"2024\"}', max_rows := 1)",
+      "rows": [
+        [
+          "T10101"
+        ]
+      ]
+    },
+    {
+      "name": "notes",
+      "sql": "SELECT note_ref, note_text FROM bea.main.notes('NIPA', '{\"Year\":\"2024\"}')",
+      "rows": [
+        [
+          "1",
+          "Synthetic data. (D) means suppressed."
+        ]
+      ]
+    },
+    {
+      "name": "empty result",
+      "sql": "SELECT count(*) FROM bea.main.data('EMPTY', '{\"Year\":\"2024\"}')",
+      "rows": [
+        [
+          0
+        ]
+      ]
+    },
+    {
+      "name": "empty data retains notes",
+      "sql": "SELECT count(*) FROM bea.main.notes('EMPTY', '{\"Year\":\"2024\"}')",
+      "rows": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "name": "explicit cap",
+      "sql": "SELECT count(*) FROM bea.main.data('NIPA', '{\"Year\":\"2024\"}', max_rows := 1)",
+      "rows": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "name": "multiple result nodes",
+      "sql": "SELECT count(*) FROM bea.main.data('MULTI', '{\"Year\":\"2024\"}')",
+      "rows": [
+        [
+          6
+        ]
+      ]
+    }
+  ],
+  "error_checks": [
+    {
+      "name": "credential override rejected",
+      "sql": "SELECT * FROM bea.main.data('NIPA', '{\"UserID\":\"override\"}')",
+      "message": "Parameters must"
+    },
+    {
+      "name": "duplicate parameter rejected",
+      "sql": "SELECT * FROM bea.main.data('NIPA', '{\"Year\":2024,\"year\":2023}')",
+      "message": "Parameters must"
+    },
+    {
+      "name": "API error redacted",
+      "sql": "SELECT * FROM bea.main.data('ERROR', '{\"Year\":\"2024\"}')",
+      "message": "BEA API error 4"
+    },
+    {
+      "name": "corrupt value rejected",
+      "sql": "SELECT * FROM bea.main.data('BADVALUE', '{\"Year\":\"2024\"}')",
+      "message": "unrecognized numeric value"
+    },
+    {
+      "name": "redirect rejected",
+      "sql": "SELECT * FROM bea.main.data('REDIRECT', '{\"Year\":\"2024\"}')",
+      "message": "HTTP 302"
+    }
+  ],
+  "live_checks": [
+    {
+      "name": "live dataset discovery",
+      "sql": "SELECT count(*) FROM bea.main.datasets() WHERE dataset_name = 'NIPA'",
+      "rows": [
+        [
+          1
+        ]
+      ]
+    },
+    {
+      "name": "live NIPA data",
+      "sql": "SELECT count(*) > 0 AND count(value) > 0 FROM bea.main.data('NIPA', '{\"TableName\":\"T10101\",\"Frequency\":\"A\",\"Year\":\"2024\"}')",
+      "rows": [
+        [
+          true
+        ]
+      ]
+    }
+  ]
+}

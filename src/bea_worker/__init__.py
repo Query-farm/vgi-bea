@@ -1,0 +1,1 @@
+"""VGI bea worker package."""
