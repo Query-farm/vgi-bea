@@ -24,12 +24,12 @@ tools: ## Install the pinned SQL test runner into .tools
 	@test -x $(HAYBARN_UNITTEST) || { uv venv -q $(TOOLS) && uv pip install -q -p $(TOOLS) haybarn-unittest==$(HAYBARN_VERSION); }
 
 fmt: ## Format the code
-	uv run ruff format src tests test examples ci examples
-	uv run ruff check --fix src tests test examples ci examples
+	uv run ruff format src tests test examples ci
+	uv run ruff check --fix src tests test examples ci
 
 lint: build ## Static checks: ruff, mypy, pydoclint
-	uv run ruff format --check src tests test examples ci examples
-	uv run ruff check src tests test examples ci examples
+	uv run ruff format --check src tests test examples ci
+	uv run ruff check src tests test examples ci
 	uv run mypy
 	uvx pydoclint --config=pyproject.toml src
 
@@ -61,7 +61,7 @@ run-http: build ## Serve over HTTP on port 8000
 	$(WORKER) --http --host 127.0.0.1 --port 8000
 
 debug: build tools ## Run one query against the worker with debug logging on stderr
-	@printf "LOAD vgi;\nATTACH 'bea' (TYPE vgi, LOCATION '$(WORKER) --debug');\nSELECT bea.main.greet('debug');\n" \
+	@printf "LOAD vgi;\nATTACH 'bea' (TYPE vgi, LOCATION '$(WORKER) --debug');\nSELECT function_name FROM duckdb_functions() WHERE database_name = 'bea' ORDER BY function_name;\n" \
 	  | uvx --from haybarn-cli==$(HAYBARN_VERSION) haybarn -no-agent
 
 template-diff: ## Show upstream template changes since this project was created

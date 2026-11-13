@@ -55,3 +55,9 @@ All 11 jobs passed: Python 3.13/3.14 quality checks; Ubuntu stdio, launch and HT
 Windows stdio and HTTP; metadata lint; stock DuckDB; installed wheel/source
 contracts; and Docker image build with HTTP health verification. Release tags
 run these gates again before publishing signed artifacts.
+
+## 0.1.1 maintenance release
+
+Corrects `make debug` to query the BEA catalog and removes inherited FRED keywords.
+No API or result schema changes. The complete local suite and installed-artifact
+contracts are rerun for the patch release.

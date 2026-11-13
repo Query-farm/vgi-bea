@@ -75,7 +75,7 @@ class BeaWorker(Worker):
                 tags={
                     "vgi.title": "Bea Functions",
                     "domain": "economics",
-                    "vgi.keywords": keywords_array("bea, albea, economics, revisions, vintages, time series"),
+                    "vgi.keywords": keywords_array("bea, national accounts, regional economics, gdp, time series"),
                     "vgi.doc_llm": SCHEMA_DOC_LLM,
                     "vgi.doc_md": SCHEMA_DOC_MD,
                     "vgi.categories": json.dumps(SCHEMA_CATEGORIES),
