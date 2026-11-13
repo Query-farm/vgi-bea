@@ -54,24 +54,20 @@ def column(name: str, type_: pa.DataType, comment: str, *, nullable: bool = True
 
 CATALOG_DOC_LLM = (
     "An example VGI worker generated from the Query.Farm starter template. It shows the three "
-    "shapes most workers need: a vectorized scalar function (`greet`, with a one- and two-argument "
-    "overload), a deterministic table function with a named default argument (`sequence_table`), "
-    "and a table function that pages through a REST API with retries and an optional bearer token "
-    "taken from a DuckDB secret or an environment variable (`fetch_items`). Replace these with "
-    "your own functions; keep the metadata complete so agents can discover and call them."
+    "shapes most workers need: a vectorized scalar function with an overload, a deterministic "
+    "table function with a named default argument, and a table function that pages through a REST "
+    "API with retries and an optional bearer token taken from a DuckDB secret or an environment "
+    "variable. Replace them with your own functions; keep the metadata complete so agents can "
+    "discover and call them."
 )
 
 CATALOG_DOC_MD = (
     "# VGI starter worker\n\n"
     "**An example [VGI](https://query.farm/vgi) worker that brings custom functions into DuckDB "
     "SQL.** It was generated from the Query.Farm starter template and is meant to be renamed and "
-    "rewritten: every function here demonstrates one pattern you will reuse.\n\n"
-    "- `greet(name)` and `greet(name, style)`: a vectorized scalar with an overload and a "
-    "constrained constant argument.\n"
-    "- `sequence_table(count, step := 1)`: a deterministic table function that streams its "
-    "output in batches.\n"
-    "- `fetch_items(base_url, page_size := 100)`: wraps a paginated REST API, retrying politely "
-    "and reading a bearer token from a DuckDB secret or the environment.\n\n"
+    "rewritten: every function here demonstrates one pattern you will reuse, from vectorized "
+    "scalars and streaming table functions to a REST API reader that retries politely and reads "
+    "a bearer token from a DuckDB secret or the environment.\n\n"
     "The worker speaks Apache Arrow to DuckDB over stdin/stdout, a Unix socket, or HTTP, so the "
     "same code runs as a local subprocess or a hosted service. See the "
     "[VGI documentation](https://query.farm/vgi/docs/) to learn more."

@@ -160,7 +160,10 @@ produces in `write_result_modes`. The helpers in `vgi.write_results` (`write_opt
 `write_result_schema`, `write_result_batch`, `row_id_field`) read DuckDB's `write_options`
 argument and build the result. UPDATE and DELETE need a scan function that emits
 `row_id_field()` and declares projection pushdown. Transactions: override `attach_supports_transactions`
-and `catalog_transaction_begin` / `_commit` / `_rollback` on the catalog. See
+and `catalog_transaction_begin` / `_commit` / `_rollback` on the catalog. Since VGI protocol 3.3
+a table's scan and write functions are table-only: hidden from `duckdb_functions()` and not
+callable from SQL. Set `expose_scan=True` on the table to keep the scan callable as an ordinary
+table function too (write functions never are). See
 [Writable tables](https://github.com/Query-farm/vgi-python/blob/main/docs/catalog-interface.md#writable-tables)
 in the vgi-python docs.
 

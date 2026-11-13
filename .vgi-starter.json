@@ -1,7 +1,7 @@
 {
   "template": "vgi-starter-python",
   "lang": "python",
-  "template_version": "1.2.0",
+  "template_version": "1.3.0",
   "post_init": [
     "uv lock",
     "uv run --quiet ruff format src tests test examples"

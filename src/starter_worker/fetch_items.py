@@ -54,7 +54,16 @@ USER_AGENT = "vgi-starter-worker/0.1"
 API_SECRET_TYPE = SecretTypeSpec(
     name=SECRET_TYPE,
     description="Bearer token for the API that fetch_items reads.",
-    schema=pa.schema([pa.field("token", pa.string(), metadata={"redact": "true"})]),
+    schema=pa.schema(
+        [
+            pa.field(
+                "token",
+                pa.string(),
+                metadata={"redact": "true", "vgi_doc": "Bearer token sent in the Authorization header."},
+            )
+        ],
+        metadata={"vgi_doc_url": "https://github.com/Query-farm/vgi-starter-python#secrets-and-configuration"},
+    ),
 )
 
 OUTPUT_SCHEMA = pa.schema(

@@ -30,7 +30,7 @@ from vgi.table_function import (
 DATA_VERSION = '"rates-v1"'
 # Module level on purpose: the SDK evaluates class-body annotations at runtime.
 _RATE_FIELDS: list[pa.Field[Any]] = [pa.field("currency", pa.string()), pa.field("rate", pa.float64())]
-ROWS = {"currency": ["EUR", "GBP", "JPY"], "rate": [1.09, 1.27, 0.0067]}
+ROWS: dict[str, list[Any]] = {"currency": ["EUR", "GBP", "JPY"], "rate": [1.09, 1.27, 0.0067]}
 
 
 @dataclass(slots=True, frozen=True, kw_only=True)
