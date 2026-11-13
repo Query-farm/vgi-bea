@@ -46,3 +46,12 @@ they do not establish that a particular user's BEA registration is valid.
 BEA has no general pagination or transactional snapshot guarantee. Large queries
 must be constrained to fit the configured response limit. Rate spacing applies
 within one process; operators must coordinate shared-key concurrency across replicas.
+
+## GitHub CI
+
+[CI run 43378047036](https://github.com/Query-farm/vgi-bea/actions/runs/43378047036)
+passed on implementation commit `9b91ca0d9ec863ffa1cfcea83bd920fe4498b0c4`.
+All 11 jobs passed: Python 3.13/3.14 quality checks; Ubuntu stdio, launch and HTTP;
+Windows stdio and HTTP; metadata lint; stock DuckDB; installed wheel/source
+contracts; and Docker image build with HTTP health verification. Release tags
+run these gates again before publishing signed artifacts.
