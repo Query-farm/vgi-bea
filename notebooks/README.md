@@ -72,3 +72,9 @@ assets, runner and locked environment files. Generated logs and extracted charts
 are ignored; successful default outputs remain embedded in the primary notebook.
 The full invented source data is in [synthetic_api.py](synthetic_api.py).
 [STANDARD.md](STANDARD.md) describes the presentation conventions.
+
+The notebook creates its Haybarn connection with an empty temporary secret
+directory and persistent secrets disabled. Its visible SQL creates only a
+TEMPORARY dummy secret for the local fixture. Assertions check the initial empty
+inventory and absence of persistent secrets before cleanup. Existing saved SQL
+credentials are neither loaded nor modified.
