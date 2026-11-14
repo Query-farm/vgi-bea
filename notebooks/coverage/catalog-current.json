@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "repository": "Query-farm/vgi-bea",
+  "revision": "f928afc9556af9e4176045f2493c7c2d75901e73",
+  "captured_at": "2026-11-14T22:49:16.324003+00:00",
+  "default_schema": "main",
+  "scope": "all_public_functions_and_tables",
+  "complete": true,
+  "objects": [
+    {
+      "schema": "main",
+      "name": "data",
+      "kind": "function",
+      "signatures": [
+        "data(VARCHAR, VARCHAR, BIGINT) -> None"
+      ],
+      "authentication": "required",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "datasets",
+      "kind": "function",
+      "signatures": [
+        "datasets(BIGINT) -> None"
+      ],
+      "authentication": "required",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "notes",
+      "kind": "function",
+      "signatures": [
+        "notes(VARCHAR, VARCHAR, BIGINT) -> None"
+      ],
+      "authentication": "required",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "parameter_values",
+      "kind": "function",
+      "signatures": [
+        "parameter_values(VARCHAR, VARCHAR, BIGINT, VARCHAR) -> None"
+      ],
+      "authentication": "required",
+      "access": "read"
+    },
+    {
+      "schema": "main",
+      "name": "parameters",
+      "kind": "function",
+      "signatures": [
+        "parameters(VARCHAR, BIGINT) -> None"
+      ],
+      "authentication": "required",
+      "access": "read"
+    }
+  ],
+  "evidence": [
+    {
+      "path": "coverage/current-source-review.md",
+      "sha256": "658a6e97775941999a920aab4731f191f198d6672daca5a7fc524a300696a938",
+      "description": "Complete source registry, named surface and compatibility review"
+    },
+    {
+      "path": "coverage/current-source-diff.patch",
+      "sha256": "6877612195a93d89ced3cbc0e9246756a8882dcb0d161dfcba9a4a8429b87c74",
+      "description": "Exhaustive release/current implementation and dependencies diff"
+    }
+  ]
+}

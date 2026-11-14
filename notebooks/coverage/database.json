@@ -1,0 +1,30 @@
+{
+  "query": "SELECT database_name,comment,tags FROM duckdb_databases() WHERE database_name='bea'",
+  "columns": [
+    "database_name",
+    "comment",
+    "tags"
+  ],
+  "rows": [
+    [
+      "bea",
+      "# vgi-bea\n\nDiscover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.\n\nQueries use bounded HTTP responses and retries. Credentials stay out of continuation state. See README.md for deployment and operational limits.",
+      {
+        "vgi.agent_test_tasks": "[{\"name\": \"datasets\", \"prompt\": \"Using bea.main.datasets, discover bea datasets. Use the arguments in this example and return the same columns: SELECT dataset_name, description FROM bea.main.datasets() ORDER BY dataset_name\"}, {\"name\": \"parameters\", \"prompt\": \"Using bea.main.parameters, discover dataset parameters. Use the arguments in this example and return the same columns: SELECT parameter_name, is_required, description FROM bea.main.parameters('NIPA') ORDER BY parameter_name\"}, {\"name\": \"parameter_values\", \"prompt\": \"Using bea.main.parameter_values, discover parameter values. Use the arguments in this example and return the same columns: SELECT key, description FROM bea.main.parameter_values('Regional', 'LineCode', filters_json := '{\\\"TableName\\\":\\\"SAINC1\\\"}') ORDER BY key\"}, {\"name\": \"data\", \"prompt\": \"Using bea.main.data, retrieve economic accounts. Use the arguments in this example and return the same columns: SELECT time_period, line_number, value, unit FROM bea.main.data('NIPA', '{\\\"TableName\\\":\\\"T10101\\\",\\\"Frequency\\\":\\\"A\\\",\\\"Year\\\":\\\"2024\\\"}') ORDER BY time_period, line_number\"}, {\"name\": \"notes\", \"prompt\": \"Using bea.main.notes, read source notes. Use the arguments in this example and return the same columns: SELECT note_ref, note_text FROM bea.main.notes('NIPA', '{\\\"TableName\\\":\\\"T10101\\\",\\\"Frequency\\\":\\\"A\\\",\\\"Year\\\":\\\"2024\\\"}') ORDER BY note_ref, note_text\"}]",
+        "vgi.author": "Query.Farm",
+        "vgi.copyright": "Copyright 2026 Query.Farm contributors",
+        "vgi.doc_llm": "Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.doc_md": "# vgi-bea\n\nDiscover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.\n\nQueries use bounded HTTP responses and retries. Credentials stay out of continuation state. See README.md for deployment and operational limits.",
+        "vgi.executable_examples": "[{\"name\": \"discover_datasets\", \"description\": \"Discover available functions without credentials or API requests\", \"sql\": \"SELECT function_name FROM duckdb_functions() WHERE database_name = 'bea' AND function_name = 'datasets' ORDER BY function_name\", \"expected_result\": [{\"function_name\": \"datasets\"}]}]",
+        "vgi.icon_url": "https://query.farm/media-kit/products/vgi/vgi-logo.png",
+        "vgi.keywords": "[\"bea\", \"economics\", \"public data\", \"time series\", \"duckdb\", \"sql\"]",
+        "vgi.license": "0BSD",
+        "vgi.source_url": "https://github.com/Query-farm/vgi-bea",
+        "vgi.subtitle": "Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts.",
+        "vgi.support_contact": "https://github.com/Query-farm/vgi-bea/issues",
+        "vgi.support_policy_url": "https://github.com/Query-farm/vgi-bea/blob/main/README.md",
+        "vgi.title": "Bureau of Economic Analysis"
+      }
+    ]
+  ]
+}

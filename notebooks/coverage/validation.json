@@ -1,0 +1,397 @@
+{
+  "schema_version": 1,
+  "status": "met",
+  "meets_target": true,
+  "catalogs": {
+    "released": {
+      "catalog_status": "verified",
+      "revision": "09bf4ef62c002c1cd4b1eea704cdff1c4821e392",
+      "catalog_sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+      "collection_reconciled": true,
+      "denominator": 5,
+      "observed_objects": 5,
+      "required": 5,
+      "verified_count": 5,
+      "candidate_count": 0,
+      "fraction": 1.0,
+      "meets_target": true,
+      "exact_runtime_count": 5,
+      "runtime_revisions": [
+        "09bf4ef62c002c1cd4b1eea704cdff1c4821e392"
+      ],
+      "covered": [
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "data"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "datasets"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "notes"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameter_values"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameters"
+        }
+      ],
+      "uncovered": [],
+      "objects": [
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "data",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "data(VARCHAR, VARCHAR, BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "datasets",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "datasets(BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "notes",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "notes(VARCHAR, VARCHAR, BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameter_values",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "parameter_values(VARCHAR, VARCHAR, BIGINT, VARCHAR) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameters",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "parameters(VARCHAR, BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        }
+      ],
+      "issues": []
+    },
+    "current": {
+      "catalog_status": "verified",
+      "revision": "f928afc9556af9e4176045f2493c7c2d75901e73",
+      "catalog_sha256": "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48",
+      "collection_reconciled": false,
+      "denominator": 5,
+      "observed_objects": 5,
+      "required": 5,
+      "verified_count": 5,
+      "candidate_count": 0,
+      "fraction": 1.0,
+      "meets_target": true,
+      "exact_runtime_count": 0,
+      "runtime_revisions": [
+        "09bf4ef62c002c1cd4b1eea704cdff1c4821e392"
+      ],
+      "covered": [
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "data"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "datasets"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "notes"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameter_values"
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameters"
+        }
+      ],
+      "uncovered": [],
+      "objects": [
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "data",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "data(VARCHAR, VARCHAR, BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "datasets",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "datasets(BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "notes",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "notes(VARCHAR, VARCHAR, BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameter_values",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "parameter_values(VARCHAR, VARCHAR, BIGINT, VARCHAR) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        },
+        {
+          "schema": [
+            "main"
+          ],
+          "name": "parameters",
+          "kinds": [
+            "function"
+          ],
+          "signatures": [
+            "parameters(VARCHAR, BIGINT) -> None"
+          ],
+          "access": [
+            "read"
+          ],
+          "authentication": [
+            "required"
+          ]
+        }
+      ],
+      "issues": []
+    }
+  },
+  "interface_drift": {
+    "known": true,
+    "current_only": [],
+    "released_only": [],
+    "changed": []
+  },
+  "notebooks": {
+    "01_units_population_and_suppression.ipynb": {
+      "verified": true,
+      "issues": []
+    },
+    "02_discovery_and_complete_pairs.ipynb": {
+      "verified": true,
+      "issues": []
+    }
+  },
+  "examples": [
+    {
+      "status": "verified",
+      "issues": [],
+      "verified_catalogs": [
+        "released",
+        "current"
+      ],
+      "object": {
+        "schema": [
+          "main"
+        ],
+        "name": "data"
+      },
+      "notebook": "01_units_population_and_suppression.ipynb",
+      "runtime_revision": "09bf4ef62c002c1cd4b1eea704cdff1c4821e392",
+      "runtime_catalog_sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7"
+    },
+    {
+      "status": "verified",
+      "issues": [],
+      "verified_catalogs": [
+        "released",
+        "current"
+      ],
+      "object": {
+        "schema": [
+          "main"
+        ],
+        "name": "datasets"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "runtime_revision": "09bf4ef62c002c1cd4b1eea704cdff1c4821e392",
+      "runtime_catalog_sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7"
+    },
+    {
+      "status": "verified",
+      "issues": [],
+      "verified_catalogs": [
+        "released",
+        "current"
+      ],
+      "object": {
+        "schema": [
+          "main"
+        ],
+        "name": "parameters"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "runtime_revision": "09bf4ef62c002c1cd4b1eea704cdff1c4821e392",
+      "runtime_catalog_sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7"
+    },
+    {
+      "status": "verified",
+      "issues": [],
+      "verified_catalogs": [
+        "released",
+        "current"
+      ],
+      "object": {
+        "schema": [
+          "main"
+        ],
+        "name": "parameter_values"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "runtime_revision": "09bf4ef62c002c1cd4b1eea704cdff1c4821e392",
+      "runtime_catalog_sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7"
+    },
+    {
+      "status": "verified",
+      "issues": [],
+      "verified_catalogs": [
+        "released",
+        "current"
+      ],
+      "object": {
+        "schema": [
+          "main"
+        ],
+        "name": "notes"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "runtime_revision": "09bf4ef62c002c1cd4b1eea704cdff1c4821e392",
+      "runtime_catalog_sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7"
+    }
+  ],
+  "issues": []
+}

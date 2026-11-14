@@ -1,0 +1,229 @@
+{
+  "query": "SELECT * FROM duckdb_functions() WHERE database_name='bea' ORDER BY schema_name,function_name",
+  "columns": [
+    "database_name",
+    "database_oid",
+    "schema_name",
+    "function_name",
+    "alias_of",
+    "function_type",
+    "description",
+    "comment",
+    "tags",
+    "return_type",
+    "parameters",
+    "parameter_types",
+    "varargs",
+    "macro_definition",
+    "has_side_effects",
+    "internal",
+    "extension_name",
+    "function_oid",
+    "examples",
+    "stability",
+    "categories"
+  ],
+  "rows": [
+    [
+      "bea",
+      "22592",
+      "main",
+      "data",
+      null,
+      "table",
+      "Retrieve economic observations for a dataset. Common dimensions are typed; attributes_json preserves every dataset-specific dimension. Units and multipliers are retained without rescaling.",
+      null,
+      {
+        "vgi.category": "api",
+        "vgi.doc_llm": "Retrieve economic observations for a dataset. Common dimensions are typed; attributes_json preserves every dataset-specific dimension. Units and multipliers are retained without rescaling. Returns typed columns dataset_name, time_period, value, value_text, unit, unit_multiplier, table_name, line_number, line_description, geo_fips, geo_name, note_ref, attributes_json, notes_json, metadata_json. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.doc_md": "## data\n\nRetrieve economic observations for a dataset. Common dimensions are typed; attributes_json preserves every dataset-specific dimension. Units and multipliers are retained without rescaling. Returns typed columns dataset_name, time_period, value, value_text, unit, unit_multiplier, table_name, line_number, line_description, geo_fips, geo_name, note_ref, attributes_json, notes_json, metadata_json. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.example_queries": "[{\"description\": \"Retrieve economic accounts\", \"sql\": \"SELECT time_period, line_number, value, unit FROM bea.main.data('NIPA', '{\\\"TableName\\\":\\\"T10101\\\",\\\"Frequency\\\":\\\"A\\\",\\\"Year\\\":\\\"2024\\\"}') ORDER BY time_period, line_number\"}]",
+        "vgi.keywords": "[\"bea\", \"economics\", \"time series\", \"data\"]",
+        "vgi.result_columns_schema": "[{\"name\": \"dataset_name\", \"type\": \"VARCHAR\", \"description\": \"Requested BEA dataset.\"}, {\"name\": \"time_period\", \"type\": \"VARCHAR\", \"description\": \"Source period, such as 2024, 2024Q1 or 2024M01; not a publication date.\"}, {\"name\": \"value\", \"type\": \"DOUBLE\", \"description\": \"Numeric value in published units; suppression and missing markers become NULL.\"}, {\"name\": \"value_text\", \"type\": \"VARCHAR\", \"description\": \"Unmodified published value text, preserving precision and suppression codes.\"}, {\"name\": \"unit\", \"type\": \"VARCHAR\", \"description\": \"Published CL_UNIT or UnitOfMeasure, if supplied.\"}, {\"name\": \"unit_multiplier\", \"type\": \"BIGINT\", \"description\": \"Base-10 exponent UNIT_MULT; value is not automatically rescaled.\"}, {\"name\": \"table_name\", \"type\": \"VARCHAR\", \"description\": \"TableName or TableID, if supplied.\"}, {\"name\": \"line_number\", \"type\": \"VARCHAR\", \"description\": \"LineNumber or LineCode, if supplied.\"}, {\"name\": \"line_description\", \"type\": \"VARCHAR\", \"description\": \"LineDescription or Description, if supplied.\"}, {\"name\": \"geo_fips\", \"type\": \"VARCHAR\", \"description\": \"Geography code kept as text to preserve leading zeroes.\"}, {\"name\": \"geo_name\", \"type\": \"VARCHAR\", \"description\": \"Geography name, if supplied.\"}, {\"name\": \"note_ref\", \"type\": \"VARCHAR\", \"description\": \"Source note references for this row.\"}, {\"name\": \"attributes_json\", \"type\": \"VARCHAR\", \"description\": \"Complete data row, including industry, country and other dimensions.\"}, {\"name\": \"notes_json\", \"type\": \"VARCHAR\", \"description\": \"Source result notes qualifying these observations.\"}, {\"name\": \"metadata_json\", \"type\": \"VARCHAR\", \"description\": \"Result-level units, dimensions and production metadata; excludes Request.\"}]",
+        "vgi.title": "Retrieve economic accounts"
+      },
+      null,
+      [
+        "dataset",
+        "parameters_json",
+        "max_rows"
+      ],
+      [
+        "VARCHAR",
+        "VARCHAR",
+        "BIGINT"
+      ],
+      null,
+      null,
+      null,
+      true,
+      null,
+      22596,
+      [
+        "SELECT time_period, line_number, value, unit FROM bea.main.data('NIPA', '{\"TableName\":\"T10101\",\"Frequency\":\"A\",\"Year\":\"2024\"}') ORDER BY time_period, line_number"
+      ],
+      null,
+      []
+    ],
+    [
+      "bea",
+      "22592",
+      "main",
+      "datasets",
+      null,
+      "table",
+      "List current dataset identifiers and descriptions before choosing an economic account.",
+      null,
+      {
+        "vgi.category": "api",
+        "vgi.doc_llm": "List current dataset identifiers and descriptions before choosing an economic account. Returns typed columns dataset_name, description. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.doc_md": "## datasets\n\nList current dataset identifiers and descriptions before choosing an economic account. Returns typed columns dataset_name, description. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.example_queries": "[{\"description\": \"Discover BEA datasets\", \"sql\": \"SELECT dataset_name, description FROM bea.main.datasets() ORDER BY dataset_name\"}]",
+        "vgi.keywords": "[\"bea\", \"economics\", \"time series\", \"datasets\"]",
+        "vgi.result_columns_schema": "[{\"name\": \"dataset_name\", \"type\": \"VARCHAR\", \"description\": \"BEA dataset identifier used in subsequent calls.\"}, {\"name\": \"description\", \"type\": \"VARCHAR\", \"description\": \"BEA's description of this dataset.\"}]",
+        "vgi.title": "Discover BEA datasets"
+      },
+      null,
+      [
+        "max_rows"
+      ],
+      [
+        "BIGINT"
+      ],
+      null,
+      null,
+      null,
+      true,
+      null,
+      22597,
+      [
+        "SELECT dataset_name, description FROM bea.main.datasets() ORDER BY dataset_name"
+      ],
+      null,
+      []
+    ],
+    [
+      "bea",
+      "22592",
+      "main",
+      "notes",
+      null,
+      "table",
+      "Retrieve source footnotes separately, including result-level notes when no observations are returned. Uses the same parameters_json as data.",
+      null,
+      {
+        "vgi.category": "api",
+        "vgi.doc_llm": "Retrieve source footnotes separately, including result-level notes when no observations are returned. Uses the same parameters_json as data. Returns typed columns dataset_name, note_ref, note_text. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.doc_md": "## notes\n\nRetrieve source footnotes separately, including result-level notes when no observations are returned. Uses the same parameters_json as data. Returns typed columns dataset_name, note_ref, note_text. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.example_queries": "[{\"description\": \"Read source notes\", \"sql\": \"SELECT note_ref, note_text FROM bea.main.notes('NIPA', '{\\\"TableName\\\":\\\"T10101\\\",\\\"Frequency\\\":\\\"A\\\",\\\"Year\\\":\\\"2024\\\"}') ORDER BY note_ref, note_text\"}]",
+        "vgi.keywords": "[\"bea\", \"economics\", \"time series\", \"notes\"]",
+        "vgi.result_columns_schema": "[{\"name\": \"dataset_name\", \"type\": \"VARCHAR\", \"description\": \"Requested BEA dataset.\"}, {\"name\": \"note_ref\", \"type\": \"VARCHAR\", \"description\": \"Note identifier referenced by observations or result metadata.\"}, {\"name\": \"note_text\", \"type\": \"VARCHAR\", \"description\": \"Source note text, including suppression definitions.\"}]",
+        "vgi.title": "Read source notes"
+      },
+      null,
+      [
+        "dataset",
+        "parameters_json",
+        "max_rows"
+      ],
+      [
+        "VARCHAR",
+        "VARCHAR",
+        "BIGINT"
+      ],
+      null,
+      null,
+      null,
+      true,
+      null,
+      22598,
+      [
+        "SELECT note_ref, note_text FROM bea.main.notes('NIPA', '{\"TableName\":\"T10101\",\"Frequency\":\"A\",\"Year\":\"2024\"}') ORDER BY note_ref, note_text"
+      ],
+      null,
+      []
+    ],
+    [
+      "bea",
+      "22592",
+      "main",
+      "parameter_values",
+      null,
+      "table",
+      "Retrieve allowed values. Nonempty filters_json selects GetParameterValuesFiltered; BEA supports this for selected datasets only.",
+      null,
+      {
+        "vgi.category": "api",
+        "vgi.doc_llm": "Retrieve allowed values. Nonempty filters_json selects GetParameterValuesFiltered; BEA supports this for selected datasets only. Returns typed columns dataset_name, parameter_name, key, description, attributes_json. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.doc_md": "## parameter_values\n\nRetrieve allowed values. Nonempty filters_json selects GetParameterValuesFiltered; BEA supports this for selected datasets only. Returns typed columns dataset_name, parameter_name, key, description, attributes_json. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.example_queries": "[{\"description\": \"Discover parameter values\", \"sql\": \"SELECT key, description FROM bea.main.parameter_values('Regional', 'LineCode', filters_json := '{\\\"TableName\\\":\\\"SAINC1\\\"}') ORDER BY key\"}]",
+        "vgi.keywords": "[\"bea\", \"economics\", \"time series\", \"parameter_values\"]",
+        "vgi.result_columns_schema": "[{\"name\": \"dataset_name\", \"type\": \"VARCHAR\", \"description\": \"Requested BEA dataset.\"}, {\"name\": \"parameter_name\", \"type\": \"VARCHAR\", \"description\": \"Requested parameter.\"}, {\"name\": \"key\", \"type\": \"VARCHAR\", \"description\": \"Parameter value to pass to data.\"}, {\"name\": \"description\", \"type\": \"VARCHAR\", \"description\": \"Source description of the value.\"}, {\"name\": \"attributes_json\", \"type\": \"VARCHAR\", \"description\": \"All source attributes, preserving dataset-specific metadata.\"}]",
+        "vgi.title": "Discover parameter values"
+      },
+      null,
+      [
+        "dataset",
+        "parameter",
+        "max_rows",
+        "filters_json"
+      ],
+      [
+        "VARCHAR",
+        "VARCHAR",
+        "BIGINT",
+        "VARCHAR"
+      ],
+      null,
+      null,
+      null,
+      true,
+      null,
+      22599,
+      [
+        "SELECT key, description FROM bea.main.parameter_values('Regional', 'LineCode', filters_json := '{\"TableName\":\"SAINC1\"}') ORDER BY key"
+      ],
+      null,
+      []
+    ],
+    [
+      "bea",
+      "22592",
+      "main",
+      "parameters",
+      null,
+      "table",
+      "Inspect required parameters, defaults and multiple-value support for a dataset.",
+      null,
+      {
+        "vgi.category": "api",
+        "vgi.doc_llm": "Inspect required parameters, defaults and multiple-value support for a dataset. Returns typed columns dataset_name, parameter_name, data_type, description, is_required, default_value, multiple_accepted, all_value, attributes_json. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.doc_md": "## parameters\n\nInspect required parameters, defaults and multiple-value support for a dataset. Returns typed columns dataset_name, parameter_name, data_type, description, is_required, default_value, multiple_accepted, all_value, attributes_json. Discover BEA datasets, parameters and parameter values, then retrieve national, regional, industry and international economic accounts. Use a bea_api secret with api_key or BEA_API_KEY. BEA has no pagination: narrow parameters_json to fit a bounded response; max_rows explicitly caps returned rows. Numeric values retain published units; unit_multiplier is the base-10 exponent and is not applied automatically. Suppressed values become NULL, with original value_text and notes preserved. NULL arguments are rejected. Missing optional response fields return NULL. Upstream errors fail the query; SQL WHERE filters are local.",
+        "vgi.example_queries": "[{\"description\": \"Discover dataset parameters\", \"sql\": \"SELECT parameter_name, is_required, description FROM bea.main.parameters('NIPA') ORDER BY parameter_name\"}]",
+        "vgi.keywords": "[\"bea\", \"economics\", \"time series\", \"parameters\"]",
+        "vgi.result_columns_schema": "[{\"name\": \"dataset_name\", \"type\": \"VARCHAR\", \"description\": \"Requested BEA dataset.\"}, {\"name\": \"parameter_name\", \"type\": \"VARCHAR\", \"description\": \"Name to use in parameters_json.\"}, {\"name\": \"data_type\", \"type\": \"VARCHAR\", \"description\": \"Upstream parameter type.\"}, {\"name\": \"description\", \"type\": \"VARCHAR\", \"description\": \"Meaning of the parameter.\"}, {\"name\": \"is_required\", \"type\": \"BOOLEAN\", \"description\": \"Whether BEA requires this parameter.\"}, {\"name\": \"default_value\", \"type\": \"VARCHAR\", \"description\": \"BEA's default value, when declared.\"}, {\"name\": \"multiple_accepted\", \"type\": \"BOOLEAN\", \"description\": \"Whether comma-separated values are accepted.\"}, {\"name\": \"all_value\", \"type\": \"VARCHAR\", \"description\": \"Special value requesting all entries, when supported.\"}, {\"name\": \"attributes_json\", \"type\": \"VARCHAR\", \"description\": \"Complete source parameter metadata as JSON.\"}]",
+        "vgi.title": "Discover dataset parameters"
+      },
+      null,
+      [
+        "dataset",
+        "max_rows"
+      ],
+      [
+        "VARCHAR",
+        "BIGINT"
+      ],
+      null,
+      null,
+      null,
+      true,
+      null,
+      22600,
+      [
+        "SELECT parameter_name, is_required, description FROM bea.main.parameters('NIPA') ORDER BY parameter_name"
+      ],
+      null,
+      []
+    ]
+  ]
+}

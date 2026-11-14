@@ -206,4 +206,4 @@ API contract reference: [BEA API User Guide, April 2026](https://apps.bea.gov/ap
 
 ## Notebooks
 
-[Run the executed regional-data walkthrough](notebooks/README.md) to explore unit multipliers, population denominators and suppressed values using an explicit synthetic API fixture.
+[Open the executed BEA notebooks](notebooks/README.md) for unit and population comparisons, parameter discovery, suppression notes and complete numerator–denominator pairs. Each notebook uses the released worker, an explicit synthetic API fixture, SVG figures and a Colab link.

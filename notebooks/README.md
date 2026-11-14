@@ -1,80 +1,51 @@
-# Executable SQL examples
+# BEA SQL notebooks
 
-| Notebook | Question |
-| --- | --- |
-| [Compare regional income on compatible scales](01_units_population_and_suppression.ipynb) | How do unit multipliers, population denominators and suppression affect a regional comparison? |
+These executed notebooks use the released BEA v0.1.1 worker through Haybarn, with
+consistent Query.Farm / VGI branding, SVG figures and an Open in Colab link in each
+first cell. All data and discovery entries are explicitly synthetic.
 
-The real BEA worker parses an explicitly synthetic response from a disposable
-loopback HTTP server. SQL applies the source unit exponent, pairs income with
-population, calculates income per person and preserves suppressed income as
-unavailable. Two charts compare total income with the population-adjusted ratio.
+- [Units, population and suppression](01_units_population_and_suppression.ipynb):
+  preserve unit exponents, join population and compare available regional rankings.
+  Change YEAR from 2024 to 2023 to expose a different suppression pattern.
+- [Discovery and complete pairs](02_discovery_and_complete_pairs.ipynb): inspect
+  datasets, parameter requirements and dependent line codes; retain qualifying
+  notes and distinguish output row caps from upstream acquisition limits.
+  Change ROW_CAP from 3 to 5 while the eight-row reference and HTTP bodies stay fixed.
 
-All values, geography names and leading-zero identifiers are invented. They are
-not BEA observations or real geography codes. The response envelope adapts the
-repository's existing test API fixture; the example demonstrates data handling,
-not real regional economic performance. No live API mode is executed.
+## Run
 
-## Run from this directory
+Open either notebook using its Colab badge and Run all. The brief base-package
+bootstrap downloads hash-verified companions and keeps compatible preloaded
+plotting/kernel libraries. The visible ATTACH uses a release-tagged uvx launcher;
+Python 3.13 and worker dependencies run in their own environment.
 
-Install [uv](https://docs.astral.sh/uv/getting-started/installation/), then copy or
-download the full `notebooks/` directory:
-
-```sh
-cd notebooks
-uv sync --frozen
-uv run --frozen python execute.py
-```
-
-The folder runs independently: no worker checkout, root `.venv`, build step or
-real BEA key is required. Internet access is needed for packages, the community
-VGI extension and the pinned worker Git revision. The notebook environment locks
-published Haybarn 2.0.0rc11 and its visualization dependencies. The visible SQL
-launcher is literal:
-
-```text
-uvx --python 3.13 --with vgi-python==0.51.1 --from git+https://github.com/Query-farm/vgi-bea@09bf4ef62c002c1cd4b1eea704cdff1c4821e392 vgi-bea-worker
-```
-
-The companion starts a fresh loopback server and sets the worker's supported
-`BEA_API_BASE_URL` and `BEA_ALLOW_INSECURE_HTTP=1` options. Its public all-zero test
-GUID is supplied through an explicit SQL secret and is valid only for the local
-fixture. The fixture serves only the selected synthetic query and rejects
-unsupported requests. It does not fetch or fall back to live data. Cleanup stops
-the server and closes the SQL connection.
-
-To upgrade the worker, change the visible Git/SDK pins and rerun the default and
-experiment before replacing outputs. The root project's lock remains separate.
-
-For an interactive notebook editor, select `notebooks/.venv/bin/python`, or
-register the environment:
+Locally, install uv, then run from this directory:
 
 ```sh
-uv run --frozen python -m ipykernel install --user --name vgi-bea-notebooks --display-name "Python (vgi-bea notebooks)"
+uv sync --locked
+uv run --locked vgi-notebooks
+uv run --locked vgi-notebooks 01_units_population_and_suppression.ipynb --parameters '{"YEAR":2023}' --output-dir artifacts/year-2023
+uv run --locked vgi-notebooks 02_discovery_and_complete_pairs.ipynb --parameters '{"ROW_CAP":5}' --output-dir artifacts/cap-five
 ```
 
-The runner uses a temporary kernel specification, starts from this directory and
-saves the default only after all cells succeed.
+The shared [notebook standard](https://github.com/Query-farm/vgi-example-notebooks/blob/main/docs/standard.md)
+and runner live in vgi-example-notebooks. The local publication environment includes
+its runner extra; Colab installs only the base package. GitHub does not fold code
+cells, so setup is short and connection SQL remains visible. Figures include native
+SVG MIME output and committed content-addressed SVG links for GitHub.
 
-## Year experiment
+## Data and coverage
 
-```sh
-uv run --frozen python execute.py --parameters '{"YEAR": 2023}' --output-dir validation/year-2023
-```
+The original eight-row regional fixtures remain in synthetic_api.py. bea_fixture.py
+adds invented discovery metadata, exact request auditing and restoration of inherited
+BEA configuration. The loopback server accepts only the all-zero public test GUID,
+rejects other credentials and never forwards to BEA. Temporary SQL secrets are
+explicitly removed. No live data, account or API key is used; the examples do not
+claim current API contents or actual economic results.
 
-The default is `YEAR = 2024`; the only other supported source year is 2023.
-Compare rankings and availability: the fixture deliberately suppresses a
-different region's income in each year. The geography coverage must be matched
-before interpreting a change in aggregate totals. The annual periods are not
-publication dates or historical vintages. Reset `YEAR = 2024` for the default.
-
-Overrides require a separate output folder. Copies include the server, helper,
-assets, runner and locked environment files. Generated logs and extracted charts
-are ignored; successful default outputs remain embedded in the primary notebook.
-The full invented source data is in [synthetic_api.py](synthetic_api.py).
-[STANDARD.md](STANDARD.md) describes the presentation conventions.
-
-The notebook creates its Haybarn connection with an empty temporary secret
-directory and persistent secrets disabled. Its visible SQL creates only a
-TEMPORARY dummy secret for the local fixture. Assertions check the initial empty
-inventory and absence of persistent secrets before cleanup. Existing saved SQL
-credentials are neither loaded nor modified.
+[coverage.json](coverage.json) records all five named APIs: datasets, parameters,
+parameter_values, data and notes. Actual release exports and the complete reviewed
+current-source interface are retained separately under coverage/. Current main adds
+metadata examples; the notebooks execute the release. Full response size, emitted
+rows, suppression and absence are distinct. A capped prefix is not a representative
+sample or a completeness guarantee.

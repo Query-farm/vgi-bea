@@ -1,0 +1,232 @@
+{
+  "schema_version": 1,
+  "catalogs": {
+    "released": {
+      "path": "coverage/catalog-release.json",
+      "sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root",
+        "reviewed_at": "2026-11-14T22:58:26.233539+00:00",
+        "catalog_sha256": "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+        "notes": "All five public functions, no tables/views/COPY or excluded authenticated APIs. Actual release exports and complete source registration reviewed separately. Current source changes metadata only; runtime receipt remains release revision."
+      }
+    },
+    "current": {
+      "path": "coverage/catalog-current.json",
+      "sha256": "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48",
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root",
+        "reviewed_at": "2026-11-14T22:58:26.233539+00:00",
+        "catalog_sha256": "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48",
+        "notes": "All five public functions, no tables/views/COPY or excluded authenticated APIs. Actual release exports and complete source registration reviewed separately. Current source changes metadata only; runtime receipt remains release revision."
+      }
+    }
+  },
+  "notebooks": [
+    {
+      "path": "01_units_population_and_suppression.ipynb",
+      "sha256": "4daa6fcdc078d89b5c4a63061634edac29decd97d3a7c881746bf5913d49b5a4",
+      "execution": {
+        "path": "coverage/run-01.json",
+        "sha256": "66d39f17ca9bbdfb92b9629bb6277db0843e791fd17e7313fd28c8a5d9582c48"
+      }
+    },
+    {
+      "path": "02_discovery_and_complete_pairs.ipynb",
+      "sha256": "7549a097899dd9d1fa90ef0a55ce827fe36231fc326ffdced19cac866071d1a5",
+      "execution": {
+        "path": "coverage/run-02.json",
+        "sha256": "cf35496fa677b26b681614ea9955f4a393ed422c7ead7e5e536fef4cd1eae40a"
+      }
+    }
+  ],
+  "examples": [
+    {
+      "object": {
+        "schema": "main",
+        "name": "data"
+      },
+      "notebook": "01_units_population_and_suppression.ipynb",
+      "sql": [
+        {
+          "cell": "53800965",
+          "reference": "bea.main.data"
+        }
+      ],
+      "narrative_cells": [
+        "0ebadfd1",
+        "8d6c3e9a",
+        "c39d5ff5"
+      ],
+      "result_cells": [
+        "39e2eb75",
+        "3949e819",
+        "177bfa8e",
+        "6edd171a",
+        "8a44b791"
+      ],
+      "interpretation_cells": [
+        "3949e819",
+        "f9de2d57",
+        "ff91d4e7"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root",
+        "reviewed_at": "2026-11-14T22:58:26.233539+00:00",
+        "notebook_sha256": "4daa6fcdc078d89b5c4a63061634edac29decd97d3a7c881746bf5913d49b5a4",
+        "catalog_sha256": [
+          "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+          "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48"
+        ],
+        "purpose": "Compare total income and income per person at a verified geography-period grain, preserving unit exponents and suppressed values.",
+        "finding": "The complete eight-row synthetic response yields three available ratios from four regions. Changing2024to2023 changes income/population and suppressed geography; total leader changesCedar\u2192Aster while per-personleaderBriar remains. Original synthetic response bytes and numerical analyses preserved."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "datasets"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "sql": [
+        {
+          "cell": "discovery",
+          "reference": "bea.main.datasets"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "contract-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "contract-result",
+        "values-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root",
+        "reviewed_at": "2026-11-14T22:58:26.233539+00:00",
+        "notebook_sha256": "7549a097899dd9d1fa90ef0a55ce827fe36231fc326ffdced19cac866071d1a5",
+        "catalog_sha256": [
+          "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+          "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48"
+        ],
+        "purpose": "Choose the Regional dataset from the complete invented two-dataset discovery response before inspecting its query contract.",
+        "finding": "Two authored discovery entries are returned by the actual released API; Regional has one matching entry. This is a synthetic catalog, not evidence of current BEA service offerings."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "parameters"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "sql": [
+        {
+          "cell": "discovery",
+          "reference": "bea.main.parameters"
+        }
+      ],
+      "narrative_cells": [
+        "discovery-story"
+      ],
+      "result_cells": [
+        "contract-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "contract-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root",
+        "reviewed_at": "2026-11-14T22:58:26.233539+00:00",
+        "notebook_sha256": "7549a097899dd9d1fa90ef0a55ce827fe36231fc326ffdced19cac866071d1a5",
+        "catalog_sha256": [
+          "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+          "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48"
+        ],
+        "purpose": "Check explicit selectors against discovered required fields and multiple-value acceptance.",
+        "finding": "All four required parameters are present; the two-value LineCode selector is permitted. The request contract remains fixed across the row-cap experiment; source flags do not validate measurement comparability by themselves."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "parameter_values"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "sql": [
+        {
+          "cell": "values",
+          "reference": "bea.main.parameter_values"
+        }
+      ],
+      "narrative_cells": [
+        "values-story"
+      ],
+      "result_cells": [
+        "values-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "values-result"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root",
+        "reviewed_at": "2026-11-14T22:58:26.233539+00:00",
+        "notebook_sha256": "7549a097899dd9d1fa90ef0a55ce827fe36231fc326ffdced19cac866071d1a5",
+        "catalog_sha256": [
+          "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+          "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48"
+        ],
+        "purpose": "Resolve the table and its table-dependent numerator/denominator measure keys through both discovery methods.",
+        "finding": "Unfiltered TableName yieldsSAINC1; filtered LineCode yields1income and2population. Both keys reconcile against the explicit plan, with exact HTTP method and selector audit."
+      }
+    },
+    {
+      "object": {
+        "schema": "main",
+        "name": "notes"
+      },
+      "notebook": "02_discovery_and_complete_pairs.ipynb",
+      "sql": [
+        {
+          "cell": "data",
+          "reference": "bea.main.notes"
+        }
+      ],
+      "narrative_cells": [
+        "data-story",
+        "pairs-story"
+      ],
+      "result_cells": [
+        "notes-result",
+        "checks-result"
+      ],
+      "interpretation_cells": [
+        "notes-result",
+        "experiment"
+      ],
+      "review": {
+        "status": "approved",
+        "reviewer": "Codex /root",
+        "reviewed_at": "2026-11-14T22:58:26.233539+00:00",
+        "notebook_sha256": "7549a097899dd9d1fa90ef0a55ce827fe36231fc326ffdced19cac866071d1a5",
+        "catalog_sha256": [
+          "9dd42fddc92172876d71cc11882f3fcbc9ab05b4117fb30843ad07830742cca7",
+          "7e183cf9843da628104b50bd0a6a1746a080e2b0a3f0f92800a50768820c4b48"
+        ],
+        "purpose": "Retain the source explanation for a suppressed observation and distinguish it from output-cap absence.",
+        "finding": "Dune income retains(D),NULL and its qualifying note. notes makes a separate8-row GetData request. Increasing cap3\u21925 adds a complete pair but leaves discovery,complete response and suppressionnote fixed; allthree GetData bodies remain8rows."
+      }
+    }
+  ]
+}
