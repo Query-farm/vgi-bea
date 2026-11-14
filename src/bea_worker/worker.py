@@ -56,6 +56,19 @@ CATALOG_TAGS["vgi.agent_test_tasks"] = json.dumps(
         }
         for fn in FUNCTIONS
     ]
+    + [
+        {
+            "name": "top_per_capita_income_states",
+            "prompt": (
+                "Use bea.main.parameter_values to find which LineCode of BEA Regional table SAINC1 holds "
+                "per capita personal income, then use bea.main.data to find the three states (District of "
+                "Columbia counts as a state; exclude the United States total and regions) with the highest "
+                "per capita personal income in 2023. Save them as a temporary view named "
+                "top_income_states with columns geo_fips (VARCHAR, the 5-digit BEA GeoFips code) and "
+                "geo_name (VARCHAR), one row per state."
+            ),
+        }
+    ]
 )
 
 

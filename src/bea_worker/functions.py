@@ -11,6 +11,7 @@ from typing import Annotated, Any, ClassVar
 import pyarrow as pa
 from vgi.arguments import Arg
 from vgi.invocation import BindResponse
+from vgi.metadata import FunctionExample
 from vgi.table_function import BindParams, OutputCollector, ProcessParams, TableFunctionGenerator, init_single_worker
 from vgi_rpc import ArrowSerializableDataclass
 
@@ -76,6 +77,49 @@ NOTES = pa.schema(
         column("note_text", pa.string(), "Source note text, including suppression definitions."),
     ]
 )
+
+
+# Composed examples: each combines two or more of this worker's functions in one
+# query. Defined once and attached to the function that drives the query; the
+# worker also publishes them in the schema-level vgi.example_queries list.
+_NIPA_GDP_2024 = '{"TableName":"T10101","Frequency":"A","Year":"2024"}'
+_SAINC1_STATE_2023 = '{{"TableName":"SAINC1","LineCode":"{line}","GeoFips":"STATE","Year":"2023"}}'
+DATA_WITH_NOTES_SQL = (
+    "SELECT TRY_CAST(d.line_number AS INTEGER) AS line_no, d.line_description, d.value, d.unit, n.note_text "
+    f"FROM bea.main.data('NIPA', '{_NIPA_GDP_2024}') AS d "
+    f"LEFT JOIN bea.main.notes('NIPA', '{_NIPA_GDP_2024}') AS n "
+    "ON list_contains(string_split(d.note_ref, ','), n.note_ref) "
+    "ORDER BY line_no, n.note_ref, n.note_text"
+)
+INCOME_VS_POPULATION_SHARE_SQL = (
+    "WITH income AS (SELECT geo_fips, geo_name, round(100 * value / sum(value) OVER (), 2) AS income_share_pct "
+    f"FROM bea.main.data('Regional', '{_SAINC1_STATE_2023.format(line=1)}') "
+    "WHERE geo_fips BETWEEN '01000' AND '56000'), "
+    "population AS (SELECT geo_fips, round(100 * value / sum(value) OVER (), 2) AS population_share_pct "
+    f"FROM bea.main.data('Regional', '{_SAINC1_STATE_2023.format(line=2)}') "
+    "WHERE geo_fips BETWEEN '01000' AND '56000') "
+    "SELECT i.geo_fips, i.geo_name, i.income_share_pct, p.population_share_pct, "
+    "round(i.income_share_pct - p.population_share_pct, 2) AS share_gap_pct "
+    "FROM income AS i JOIN population AS p ON p.geo_fips = i.geo_fips "
+    "ORDER BY i.income_share_pct DESC NULLS LAST, i.geo_fips"
+)
+
+COMPOSED_DATA_EXAMPLES = [
+    FunctionExample(
+        sql=DATA_WITH_NOTES_SQL,
+        description=(
+            "Attach source footnote text to each 2024 real GDP growth line by joining data rows to notes "
+            "on the note references they cite"
+        ),
+    ),
+    FunctionExample(
+        sql=INCOME_VS_POPULATION_SHARE_SQL,
+        description=(
+            "Compare each state's 2023 share of the 50-state-plus-DC personal income total (SAINC1 line 1) "
+            "with its share of population (line 2) and the gap between them, largest income share first"
+        ),
+    ),
+]
 
 
 @dataclass(frozen=True, kw_only=True)
@@ -391,6 +435,8 @@ class Data(BeaFunction[DataArgs]):
             "line_number"
         ),
     )
+
+    Meta.examples = [*Meta.examples, *COMPOSED_DATA_EXAMPLES]
 
     @classmethod
     def fetch(cls, args: DataArgs, key: str) -> list[dict[str, Any]]:

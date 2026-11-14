@@ -313,3 +313,19 @@ def test_bad_bearer_configuration_stops_http_startup(tmp_path: Path) -> None:
     assert "Invalid VGI_BEARER_TOKENS" in result.stderr
     assert WORKER_TOKEN not in result.stderr + result.stdout
     assert not port_file.exists()
+
+
+def test_composed_examples_are_published_where_agents_see_them() -> None:
+    """Composed examples lead data's first five examples and appear once in the schema list."""
+    from bea_worker.functions import COMPOSED_DATA_EXAMPLES, Data
+    from bea_worker.worker import BeaWorker
+
+    composed = [{"description": ex.description, "sql": ex.sql} for ex in COMPOSED_DATA_EXAMPLES]
+    data_examples = json.loads(Data.Meta.tags["vgi.example_queries"])[:5]
+    assert all(entry in data_examples for entry in composed)
+    schema = BeaWorker.catalog.schemas[0]
+    schema_examples = json.loads(schema.tags["vgi.example_queries"])
+    assert all(schema_examples.count(entry) == 1 for entry in composed)
+    tasks = {task["name"] for task in json.loads(BeaWorker.catalog.tags["vgi.agent_test_tasks"])}
+    graders = json.loads((Path(__file__).parents[1] / "vgi-agent-tests.yaml").read_text())["tasks"]
+    assert tasks == {grader["name"] for grader in graders}

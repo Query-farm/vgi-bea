@@ -120,6 +120,14 @@ SELECT * FROM bea.main.data('REDIRECT', '{"Year":"2024"}');
 ----
 HTTP 302
 
+# composed: data joined to notes on the note references each row cites
+query IT
+SELECT TRY_CAST(d.line_number AS INTEGER) AS line_no, n.note_text FROM bea.main.data('NIPA', '{"TableName":"T10101","Frequency":"A","Year":"2024"}') AS d LEFT JOIN bea.main.notes('NIPA', '{"TableName":"T10101","Frequency":"A","Year":"2024"}') AS n ON list_contains(string_split(d.note_ref, ','), n.note_ref) ORDER BY line_no, d.value;
+----
+1	NULL
+1	Synthetic data. (D) means suppressed.
+2	NULL
+
 statement ok
 DROP SECRET bea_fixture;
 

@@ -68,7 +68,25 @@ SELECT geo_fips, geo_name, time_period, value, unit
 FROM bea.main.data('Regional',
     '{"TableName":"SAINC1","LineCode":"1","GeoFIPS":"STATE","Year":"2024"}')
 ORDER BY geo_fips, time_period;
+
+-- Combine two data calls: each state's share of personal income vs. population.
+WITH income AS (
+    SELECT geo_fips, geo_name, round(100 * value / sum(value) OVER (), 2) AS income_share_pct
+    FROM bea.main.data('Regional',
+        '{"TableName":"SAINC1","LineCode":"1","GeoFips":"STATE","Year":"2023"}')
+    WHERE geo_fips BETWEEN '01000' AND '56000'),
+population AS (
+    SELECT geo_fips, round(100 * value / sum(value) OVER (), 2) AS population_share_pct
+    FROM bea.main.data('Regional',
+        '{"TableName":"SAINC1","LineCode":"2","GeoFips":"STATE","Year":"2023"}')
+    WHERE geo_fips BETWEEN '01000' AND '56000')
+SELECT i.geo_fips, i.geo_name, i.income_share_pct, p.population_share_pct
+FROM income AS i JOIN population AS p ON p.geo_fips = i.geo_fips
+ORDER BY i.income_share_pct DESC NULLS LAST, i.geo_fips;
 ```
+
+`notes` takes the same `parameters_json` as `data`, so the two join on `note_ref`
+to put each observation beside the footnotes it cites (see the `data` examples).
 
 ### Data semantics
 

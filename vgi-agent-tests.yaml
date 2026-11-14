@@ -19,6 +19,11 @@
     {
       "name": "notes",
       "reference_sql": "SELECT note_ref, note_text FROM bea.main.notes('NIPA', '{\"TableName\":\"T10101\",\"Frequency\":\"A\",\"Year\":\"2024\"}') ORDER BY note_ref, note_text"
+    },
+    {
+      "name": "top_per_capita_income_states",
+      "check_sql": "SELECT count(*) = 3 AND count(DISTINCT a.geo_fips) = 3 AND bool_and(a.geo_fips IN (SELECT geo_fips FROM bea.main.data('Regional', '{\"TableName\":\"SAINC1\",\"LineCode\":\"3\",\"GeoFips\":\"STATE\",\"Year\":\"2023\"}') WHERE geo_fips BETWEEN '01000' AND '56000' AND value IS NOT NULL ORDER BY value DESC LIMIT 3)) FROM top_income_states AS a",
+      "success_criteria": "Discovers SAINC1 LineCode 3 (per capita personal income) with parameter_values, then ranks 2023 state-level data rows excluding GeoFips 00000 and regions."
     }
   ]
 }
