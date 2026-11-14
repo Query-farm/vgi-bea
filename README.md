@@ -185,3 +185,7 @@ BEA source data and notes remain attributable to BEA; the software license does
 not replace source-data terms.
 
 API contract reference: [BEA API User Guide, April 2026](https://apps.bea.gov/api/_pdf/bea_web_service_api_user_guide.pdf).
+
+## Notebooks
+
+[Run the executed regional-data walkthrough](notebooks/README.md) to explore unit multipliers, population denominators and suppressed values using an explicit synthetic API fixture.
