@@ -121,13 +121,13 @@ CATALOG_TAGS = {
     "vgi.executable_examples": json.dumps(
         [
             {
-                "name": "discover_datasets",
-                "description": "Discover available functions without credentials or API requests",
-                "sql": (
-                    "SELECT function_name FROM duckdb_functions() WHERE database_name = 'bea' AND "
-                    "function_name = 'datasets' ORDER BY function_name"
+                "name": "datasets_columns",
+                "description": (
+                    "Show the columns datasets() returns without an API key: binding the "
+                    "function with LIMIT 0 resolves its schema and makes no BEA API request"
                 ),
-                "expected_result": [{"function_name": "datasets"}],
+                "sql": "SELECT * FROM bea.main.datasets() LIMIT 0",
+                "expected_result": [],
             }
         ]
     ),
