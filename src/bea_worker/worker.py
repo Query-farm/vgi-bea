@@ -21,6 +21,7 @@ from .meta import (
     CATALOG_NAME,
     CATALOG_TAGS,
     SCHEMA_CATEGORIES,
+    SCHEMA_COMMENT,
     SCHEMA_DOC_LLM,
     SCHEMA_DOC_MD,
     SOURCE_URL,
@@ -83,7 +84,7 @@ class BeaWorker(Worker):
         schemas=[
             Schema(
                 path=["main"],
-                comment=SCHEMA_DOC_MD,
+                comment=SCHEMA_COMMENT,
                 functions=FUNCTIONS,
                 tags={
                     "vgi.title": "Bea Functions",

@@ -76,6 +76,13 @@ CATALOG_DOC_LLM = (
     "preserved. NULL arguments are rejected. Missing optional response fields return "
     "NULL. Upstream errors fail the query; SQL WHERE filters are local."
 )
+CATALOG_SOURCES_MD = (
+    "\n\n## Sources and references\n\n"
+    "- [Bureau of Economic Analysis](https://www.bea.gov/)\n"
+    "- [BEA API (Data API home)](https://apps.bea.gov/api/)\n"
+    "- [BEA API user guide (PDF)](https://apps.bea.gov/api/_pdf/bea_web_service_api_user_guide.pdf)\n"
+    "- [Register for a free BEA API key](https://apps.bea.gov/api/signup/)"
+)
 CATALOG_DOC_MD = (
     "# vgi-bea\n\n"
     + CATALOG_DOC_LLM
@@ -83,7 +90,9 @@ CATALOG_DOC_MD = (
         "\n\nQueries use bounded HTTP responses and retries. Credentials stay out of "
         "continuation state. See README.md for deployment and operational limits."
     )
+    + CATALOG_SOURCES_MD
 )
+SCHEMA_COMMENT = "BEA economic accounts as table functions: dataset, parameter and value discovery plus data retrieval."
 SCHEMA_DOC_LLM = CATALOG_DOC_LLM
 SCHEMA_DOC_MD = (
     "## main\n\n"
