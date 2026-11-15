@@ -58,6 +58,14 @@ def column(name: str, type_: pa.DataType, comment: str, *, nullable: bool = True
     return pa.field(name, type_, nullable=nullable, metadata={b"comment": comment.encode()})
 
 
+# The catalog comment is the worker's one-line directory description (VGI001):
+# plain text, one paragraph, at most 300 characters. Long-form docs live in
+# vgi.doc_md and agent guidance in vgi.doc_llm.
+CATALOG_COMMENT = (
+    "US Bureau of Economic Analysis national, regional, industry and international "
+    "economic accounts, such as GDP and personal income, as SQL tables with dataset "
+    "and parameter discovery. Needs a free BEA API key."
+)
 CATALOG_DOC_LLM = (
     "Discover BEA datasets, parameters and parameter values, then retrieve national, "
     "regional, industry and international economic accounts. Use a bea_api secret with "
