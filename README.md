@@ -6,7 +6,7 @@ accounts, and other datasets returned by BEA's discovery API.
 
 ## Install and query
 
-Python 3.13 or newer is required. Install a wheel from this repository's GitHub
+Python 3.14 or newer is required. Install a wheel from this repository's GitHub
 Releases, or build the locked source checkout:
 
 ```sh
@@ -185,7 +185,7 @@ nodes, SQL secrets, bearer authentication, safe failures and bounded retries.
 Original starter tests remain under `examples/starter_samples`; their original
 assertions run alongside the product tests.
 
-CI verifies Python 3.13 and 3.14, Haybarn SQL over stdio/launch/HTTP, stock DuckDB,
+CI verifies Python 3.14, Haybarn SQL over stdio/launch/HTTP, stock DuckDB,
 the installed wheel and Docker startup. Version tags gate GitHub releases on CI,
 then attach a wheel, source archive, signatures and build provenance. The
 worker is not published to PyPI. See `VERIFICATION.md` for measured results and

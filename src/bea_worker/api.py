@@ -79,7 +79,7 @@ def parameters_json(value: str) -> dict[str, str]:
             ):
                 raise ValueError
         return {key: str(item) for key, item in parsed.items()}
-    except (ValueError, TypeError, RecursionError):
+    except ValueError, TypeError, RecursionError:
         raise ApiError(
             "Parameters must be a JSON object of unique dataset parameter names and string/integer values; "
             "credentials, method and dataset overrides are forbidden"

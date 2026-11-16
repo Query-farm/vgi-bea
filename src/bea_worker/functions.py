@@ -315,7 +315,7 @@ class BeaFunction[T: BaseArgs](TableFunctionGenerator[T, State]):
         rows = cls.fetch(params.args, credential(params))[: params.args.max_rows]
         try:
             batch = pa.RecordBatch.from_pylist(rows, schema=params.output_schema)
-        except (pa.ArrowException, ValueError, OverflowError):
+        except pa.ArrowException, ValueError, OverflowError:
             raise ApiError("BEA response cannot be represented by the declared schema") from None
         state.done = True
         out.emit(batch)
