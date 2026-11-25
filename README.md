@@ -4,6 +4,8 @@ Query Bureau of Economic Analysis datasets from DuckDB through a Python VGI work
 Supports national accounts, regional accounts, industry accounts, international
 accounts, and other datasets returned by BEA's discovery API.
 
+vgi-bea 0.2.0 speaks VGI protocol 3.4, so it needs Haybarn 2.0.1 or newer (Haybarn 2.0.0 loads a 3.3 `vgi` extension that cannot attach it).
+
 ## Install and query
 
 Python 3.14 or newer is required. Install a wheel from this repository's GitHub
@@ -193,8 +195,8 @@ remaining live-service limitations.
 
 Starter: [Query-farm/vgi-starter-python](https://github.com/Query-farm/vgi-starter-python),
 revision `9cca9105474d6e0052b8e343c8ea21f3d1a7503c`, template 1.3.0.
-Runtime: `vgi-python>=0.51.1,<0.52`; the checked lock resolves vgi-python 0.51.1
-and vgi-rpc 0.53.1. SQL engines: stock DuckDB 2.0.0 and Haybarn 2.0.0rc11.
+Runtime: `vgi-python>=0.55.1,<0.56`; the checked lock resolves vgi-python 0.55.1
+and vgi-rpc 0.57.1. SQL engines: stock DuckDB 2.0 and Haybarn 2.0.1rc3.
 
 Protocol and dependency updates go through `make template-diff`; keep the SDK
 and SQL extension compatible. Report issues through this repository's GitHub
